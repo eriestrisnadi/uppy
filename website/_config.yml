@@ -3,22 +3,22 @@
 ## Source: https://github.com/tommy351/hexo/
 
 # Theme
-google_analytics: UA-63083-12
 root_domain: uppy.io
 
 # Site
-title: Uppy File Uploader
+title: Uppy
 subtitle: "Almost as cute as a puppy"
 logo_large: /images/logos/uppy-dog-full.svg
-logo_medium: /images/logos/uppy-dog-head-arrow.svg
+logo_medium: /images/logos/uppy-logo-2019.svg
 logo_icon: /images/logos/uppy-dog-head-arrow.png
 description: >
-    Sleek, modular file uploader that integrates seamlessly with any framework.
-    It fetches files from local disk, Google Drive, Dropbox, Instagram, remote URLs, cameras and other exciting locations, and then uploads them to the final destination.
-    It’s fast, easy to use and let's you worry about more important problems than building a file uploader.
+  Uppy fetches files locally and from remote places like Dropbox or Instagram.
+  With its seamless integration, reliability and ease of use,
+  Uppy is truly your best friend in file uploading.
 descriptionWho: >
   Uppy is brought to you by the people
-  behind <a href="https://transloadit.com">Transloadit</a> and as such will have first class support
+  behind <a href="https://transloadit.com">Transloadit</a>, and as such will
+  have first class support
   for adding their uploading and encoding backend, but this is opt-in,
   and you can just as easily roll your own.
 author: Transloadit
@@ -51,9 +51,8 @@ filename_case: 0
 render_drafts: false
 post_asset_folder: false
 highlight:
-  enable: true
+  enable: false
   line_number: false
-  tab_replace:
 
 # Category & Tag
 default_category: uncategorized
@@ -103,7 +102,7 @@ emojis:
 
 # Markdown
 ## https://github.com/chjj/marked
-markdown:
+marked:
   gfm: true
   pedantic: false
   sanitize: false
@@ -111,27 +110,27 @@ markdown:
   breaks: true
   smartLists: true
   smartypants: true
-  modifyAnchors: 1
+  # modifyAnchors: 1
+  autolink: true
 
 feed:
   type: atom
   path: atom.xml
   limit: 20
 
+# https://github.com/crimx/hexo-filter-github-emojis
+githubEmojis:
+  enable: true
+  className: github-emoji
+  inject: true
+  styles:
+  customEmojis:
+
 node_sass:
   debug: false
   outputStyle: compressed
   precision: 5
   sourceComments: false
-
-postcss:
-  plugins:
-    postcss-inline-svg:
-      path: 'src/images'
-    autoprefixer:
-      browsers:
-        - 'last 2 versions'
-    cssnano:
 
 browsersync:
   files: 'public/examples/**/*.js'
@@ -145,3 +144,10 @@ skip_render:
   - '**/*.js'
   - '*.es6'
   - '**/*.es6'
+
+alias:
+  examples/: examples/dashboard/
+
+include_markdown:
+  dir: "src/_template"   # Base directory of template markdown
+  verbose : true

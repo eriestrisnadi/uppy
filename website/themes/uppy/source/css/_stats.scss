@@ -10,53 +10,25 @@
 }
 
 .Stats-bundleSizes {
+  margin-top: 1em;
   margin-bottom: 1em;
+  width: 100%;
 
-  @media #{$screen-large} {
-    max-width: 320px;
-    float: right;
-    margin-right: -320px;
-    padding-left: 50px;
-  }
+  th { text-align: left; }
 }
 
-.Stats-bundleSizes {
-  strong.underline {
-    display: inline-block;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 5px;
-  }
+.Stats-size {
+  white-space: nowrap;
+}
 
-  dl {
-    @include clearfix;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  dt {
-    float: left;
-    width: 50%;
-    padding: 0;
-    margin: 0;
-    a {
-      color: #e02177;
-    }
-  }
-
-  dd {
-    float: left;
-    width: 50%;
-    padding: 0;
-    margin: 0;
-    &.red {
-      color: red;
-    }
-    &.green {
-      color: #3FC33F;
-    }
-  }
+a.Stats-package {
+  color: #e02177;
+}
+.Stats-large {
+  color: red;
+}
+.Stats-small {
+  color: #3FC33F;
 }
 
 .Disc {
@@ -70,17 +42,23 @@
 
 .on-the-githubs {
   @include clearfix;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  &:empty::before {
+    content: "Loading...";
+  }
+
   > li {
     @include clearfix;
-    list-style-type: none;
     margin: 0;
-    padding: 5px 0;
+    padding: 12px 0;
     position: relative;
-    border-bottom: 1px solid rgba($color-gray, 0.3);
-    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
 
     p {
-      font-size: 15px;
       margin: 0;
       padding: 0;
       display: inline-block;
@@ -91,6 +69,8 @@
     abbr {
       display: block;
       margin-bottom: 5px;
+      color: $color-light;
+      text-decoration: none;
 
       @media #{$screen-medium} {
         display: inline;
@@ -101,13 +81,14 @@
     }
 
     a {
-      font-weight: normal;
-      text-decoration: underline;
+      font-weight: 700;
+      text-decoration: none;
+      color: inherit;
     }
 
     img {
       float: left;
-      margin: 0 5px 0 0;
+      margin: 0 7px 0 0;
       border-radius: 10px;
       width: 20px;
       height: 20px;

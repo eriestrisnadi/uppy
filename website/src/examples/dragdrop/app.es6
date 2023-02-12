@@ -1,23 +1,38 @@
-const Uppy = require('uppy/lib/core/Core')
-const DragDrop = require('uppy/lib/plugins/DragDrop')
-const ProgressBar = require('uppy/lib/plugins/ProgressBar')
-const Tus = require('uppy/lib/plugins/Tus')
+import Uppy from '@uppy/core'
+import DragDrop from '@uppy/drag-drop'
+import ProgressBar from '@uppy/progress-bar'
+import Tus from '@uppy/tus'
 
-const uppyOne = new Uppy({debug: true})
+// Function for displaying uploaded files
+const onUploadSuccess = (elForUploadedFiles) => (file, response) => {
+  const url = response.uploadURL
+  const fileName = file.name
+
+  const li = document.createElement('li')
+  const a = document.createElement('a')
+  a.href = url
+  a.target = '_blank'
+  a.appendChild(document.createTextNode(fileName))
+  li.appendChild(a)
+
+  document.querySelector(elForUploadedFiles).appendChild(li)
+}
+
+const uppyOne = new Uppy({ debug: true, autoProceed: true })
 uppyOne
-  .use(DragDrop, {target: '.UppyDragDrop-One'})
-  .use(Tus, {endpoint: '//master.tus.io/files/'})
-  .use(ProgressBar, {target: '.UppyDragDrop-One-Progress'})
-  .run()
+  .use(DragDrop, { target: '.example-one .for-DragDrop' })
+  .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' })
+  .use(ProgressBar, { target: '.example-one .for-ProgressBar', hideAfterFinish: false })
+  .on('upload-success', onUploadSuccess('.example-one .uploaded-files ol'))
 
-const uppyTwo = new Uppy({debug: true, autoProceed: false})
+const uppyTwo = new Uppy({ debug: true, autoProceed: false })
 uppyTwo
-  .use(DragDrop, {target: '#UppyDragDrop-Two'})
-  .use(Tus, {endpoint: '//master.tus.io/files/'})
-  .use(ProgressBar, {target: '.UppyDragDrop-Two-Progress'})
-  .run()
+  .use(DragDrop, { target: '.example-two .for-DragDrop' })
+  .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' })
+  .use(ProgressBar, { target: '.example-two .for-ProgressBar', hideAfterFinish: false })
+  .on('upload-success', onUploadSuccess('.example-two .uploaded-files ol'))
 
-var uploadBtn = document.querySelector('.UppyDragDrop-Two-Upload')
-uploadBtn.addEventListener('click', function () {
+const uploadBtn = document.querySelector('.example-two button.upload-button')
+uploadBtn.addEventListener('click', () => {
   uppyTwo.upload()
 })

@@ -1,32 +1,33 @@
-const Uppy = require('uppy/lib/core')
-const Dashboard = require('uppy/lib/plugins/Dashboard')
-const GoldenRetriever = require('uppy/lib/plugins/GoldenRetriever')
+import Uppy from '@uppy/core'
+import Dashboard from '@uppy/dashboard'
+import GoldenRetriever from '@uppy/golden-retriever'
+
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
 
 // Initialise two Uppy instances with the GoldenRetriever plugin,
 // but with different `id`s.
-const a = Uppy({
+const a = new Uppy({
   id: 'a',
-  debug: true
+  debug: true,
 })
   .use(Dashboard, {
     target: '#a',
     inline: true,
-    maxWidth: 400
+    width: 400,
   })
   .use(GoldenRetriever, { serviceWorker: false })
-  .run()
 
-const b = Uppy({
+const b = new Uppy({
   id: 'b',
-  debug: true
+  debug: true,
 })
   .use(Dashboard, {
     target: '#b',
     inline: true,
-    maxWidth: 400
+    width: 400,
   })
   .use(GoldenRetriever, { serviceWorker: false })
-  .run()
 
 window.a = a
 window.b = b

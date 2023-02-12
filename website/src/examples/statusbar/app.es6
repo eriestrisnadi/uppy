@@ -1,11 +1,14 @@
-const Uppy = require('uppy/lib/core/Core')
-const FileInput = require('uppy/lib/plugins/FileInput')
-const StatusBar = require('uppy/lib/plugins/StatusBar')
-const Tus = require('uppy/lib/plugins/Tus')
+import Uppy from '@uppy/core'
+import FileInput from '@uppy/file-input'
+import StatusBar from '@uppy/status-bar'
+import Tus from '@uppy/tus'
 
-const uppyOne = new Uppy({debug: true})
+const uppyOne = new Uppy({ debug: true, autoProceed: true })
 uppyOne
   .use(FileInput, { target: '.UppyInput', pretty: false })
-  .use(Tus, { endpoint: '//master.tus.io/files/' })
-  .use(StatusBar, { target: '.UppyInput-Progress', hideUploadButton: true })
-  .run()
+  .use(Tus, { endpoint: 'https://tusd.tusdemo.net/files/' })
+  .use(StatusBar, {
+    target: '.UppyInput-Progress',
+    hideUploadButton: true,
+    hideAfterFinish: false,
+  })

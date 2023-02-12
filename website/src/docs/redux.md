@@ -1,59 +1,56 @@
 ---
 title: "Redux"
 type: docs
-permalink: docs/react/redux-sync/
-order: 57
+module: "@uppy/store-redux"
+permalink: docs/redux/
+order: 9
+category: "Miscellaneous"
+tagline: "Uppy can use your app’s Redux store for its files and UI state"
 ---
 
-The `Redux` plugin syncs a Redux store with Uppy's internal state. This simplifies writing custom UIs for Uppy in applications that use Redux.
+Uppy supports the popular [Redux](https://redux.js.org/) state management library in two ways:
 
-To use it, define a Redux action and reducer:
+## Redux Store
+
+You can tell Uppy to use your app’s Redux store for its files and UI state. Please check out [Custom Stores](/docs/stores/) for more information on that. Here’s an example to give you a sense of how this works:
 
 ```js
-// The action creator receives 3 parameters:
-// - The previous state
-// - The new state
-// - The change set
-const uppyStateUpdate = (previous, next, patch) => ({
-  type: 'UPPY_STATE_UPDATE',
-  previous,
-  next,
-  patch
-})
+import Uppy from '@uppy/core'
+import * as ReduxStore from '@uppy/store-redux'
+import * as Redux from 'redux'
 
-function reduce (state = {}, action) {
-  if (action.type === 'UPPY_STATE_UPDATE') {
-    return {
-      ...state,
-      // Merge in the changes.
-      ...action.patch
-    }
-  }
+function createStore (reducers = {}) {
+  const reducer = Redux.combineReducers({ ...reducers, uppy: ReduxStore.reducer })
+  return Redux.createStore(reducer)
 }
+
+const store = new ReduxStore.ReduxStore({ store: createStore() })
+const uppy = new Uppy({ store })
 ```
 
-Then pass your Redux store's `dispatch` function and the action creator to the Redux plugin:
+Keep in mind that Uppy state is not serializable (because we have to keep track of files with data blobs). So, if you persist your Redux state, you should exclude Uppy state from persistence.
+
+If you’d like to persist your Uppy state — please look into [@uppy/golden-retriever](https://uppy.io/docs/golden-retriever/). It’s a plugin created specifically for saving and restoring Uppy state, including selected files and upload progress.
+
+## Redux Dev Tools
+
+This is a `ReduxDevTools` plugin that syncs with the [redux-devtools](https://github.com/gaearon/redux-devtools) browser or JS extensions, and allows for basic time travel:
 
 ```js
-const ReduxStore = require('uppy/lib/Redux')
-uppy.use(ReduxStore, {
-  dispatch: store.dispatch,
-  action: uppyStateUpdate
+import Uppy from '@uppy/core'
+import ReduxDevTools from '@uppy/redux-dev-tools'
+
+const uppy = new Uppy({
+  debug: true,
+  meta: {
+    username: 'John',
+    license: 'Creative Commons',
+  },
 })
+  .use(XHRUpload, { endpoint: 'https://example.com' })
+  .use(ReduxDevTools)
 ```
 
-## Options
+After you `.use(ReduxDevTools)`, you should be able to see Uppy’s state in Redux Dev Tools.
 
-### `dispatch`
-
-The dispatch function for a Redux store.
-
-### `action`
-
-An action creator for uppy state updates.
-
-The action creator receives 3 parameters:
-
-1. The previous state
-1. The new state
-1. The change set: an object that can be merged into the previous state to produce the new state.
+You will likely not need this if you are actually using Redux yourself, as well as Redux Store in Uppy like in the example above, since it will work automatically in that case.

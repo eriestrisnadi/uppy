@@ -1,71 +1,85 @@
 ---
 title: "Introduction"
 type: docs
+module: "@uppy/react"
 permalink: docs/react/
-order: 50
+order: 0
+category: "React"
 ---
 
 Uppy provides [React][] components for the included UI plugins.
 
+## Installation
+
+All React components are provided through the `@uppy/react` package.
+
+Install from NPM:
+
+```shell
+npm install @uppy/react
+```
+
 ## Usage
 
-The components can be used with [React][] or API-compatible alternatives such as [Preact][].
+`@uppy/react` exposes component wrappers for `Dashboard`, `DragDrop`, and all other UI elements.
+The components can be used with either [React][] or API-compatible alternatives such as [Preact][].
 
-Instead of adding a UI plugin to an Uppy instance with `.use()`, the Uppy instance can be passed into components as an `uppy` prop.
-All other props are passed as options to the plugin.
+A couple things to keep in mind when using Uppy with React:
+
+* Instead of adding a UI plugin to an Uppy instance with `.use()`, the Uppy instance can be passed into components as an `uppy` prop.
+* All other props are passed as options to the plugin.
+* The Uppy instance should **not** live inside the component but outside of it.
+* You have to pass the IDs of your `use`d plugins to the `plugins` array prop so Dashboard knows it needs to render them.
+* An Uppy instance can’t be used by more than one component. Make sure you are using a unique Uppy instance per component.
+
+Here is a basic example:
 
 ```js
-const Uppy = require('uppy/lib/core')
-const Tus = require('uppy/lib/plugins/Tus')
-const DragDrop = require('uppy/lib/react/DragDrop')
+import React, { useEffect } from 'react'
+import Uppy from '@uppy/core'
+import Webcam from '@uppy/webcam'
+import { Dashboard } from '@uppy/react'
 
-const uppy = Uppy({
-  meta: { type: 'avatar' },
-  restrictions: { maxNumberOfFiles: 1 },
-  autoProceed: true
-})
+const uppy = new Uppy().use(Webcam)
 
-uppy.use(Tus, { endpoint: '/upload' })
-
-uppy.on('complete', (result) => {
-  const url = result.successful[0].uploadURL
-  store.dispatch({
-    type: SET_USER_AVATAR_URL,
-    payload: { url: url }
-  })
-})
-
-uppy.run()
-
-const AvatarPicker = ({ currentAvatar }) => {
-  return (
-    <div>
-      <img src={currentAvatar} alt="Current Avatar" />
-      <DragDrop
-        uppy={uppy}
-        locale={{
-          strings: {
-            chooseFile: 'Pick a new avatar'
-          }
-        }}
-      />
-    </div>
-  )
+function Component () {
+  return <Dashboard uppy={uppy} plugins={['Webcam']} />
 }
 ```
 
-The plugins that are available as React component wrappers are:
+## CSS
 
- - [Dashboard][]
- - [DashboardModal][]
- - [DragDrop][]
- - [ProgressBar][]
- - [StatusBar][]
+Make sure to also include the necessary CSS files for each Uppy React component you are using. Follow links for individual components docs below for details on that.
+
+## Components
+
+The following plugins are available as React component wrappers (you need to
+install each package separately):
+
+* [\<Dashboard />][<Dashboard />] - renders an inline [`@uppy/dashboard`][].
+* [\<DashboardModal />][<DashboardModal />] - renders a [`@uppy/dashboard`][] modal.
+* [\<DragDrop />][<DragDrop />] - renders a [`@uppy/drag-drop`][] area.
+* [\<ProgressBar />][<ProgressBar />] - renders a [`@uppy/progress-bar`][].
+* [\<StatusBar />][<StatusBar />] - renders a [`@uppy/status-bar`][].
 
 [React]: https://facebook.github.io/react
+
 [Preact]: https://preactjs.com/
-[Dashboard]: /docs/dashboard
-[DragDrop]: /docs/dragdrop
-[ProgressBar]: /docs/progressbar
-[StatusBar]: /docs/statusbar
-[DashboardModal]: /docs/react/dashboard-modal
+
+[<Dashboard />]: /docs/react/dashboard
+
+[<DragDrop />]: /docs/react/dragdrop
+
+[<ProgressBar />]: /docs/react/progress-bar
+
+[<StatusBar />]: /docs/react/status-bar
+
+[<DashboardModal />]: /docs/react/dashboard-modal
+
+[`@uppy/dashboard`]: /docs/dashboard
+
+[`@uppy/drag-drop`]: /docs/drag-drop
+
+[`@uppy/progress-bar`]: /docs/progress-bar
+
+[`@uppy/status-bar`]: /docs/status-bar

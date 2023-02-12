@@ -1,7 +1,42 @@
 <!--
-You can `npm run web:update:frontpage:code:sample` to render this code snippet and
+You can `yarn run web:inject-frontpagecodesample` to render this code snippet and
 save it as a layout partial
--->
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ npm install uppy</div></pre></td></tr></table></figure>
+--><html><head></head><body><figure class="highlight bash"><table><tbody><tr><td class="code"><pre>$ <span class="token function">npm</span> <span class="token function">install</span> @uppy/core @uppy/dashboard @uppy/instagram @uppy/tus</pre></td></tr></tbody></table></figure>
 
-<figure class="highlight js"><figcaption><span>api-usage-example.ejs</span><a href="/examples/../api-usage-example.ejs">view raw</a></figcaption><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> Uppy <span class="keyword">from</span> <span class="string">'uppy/lib/core'</span></div><div class="line"><span class="keyword">import</span> Dashboard <span class="keyword">from</span> <span class="string">'uppy/lib/plugins/Dashboard'</span></div><div class="line"><span class="keyword">import</span> Tus <span class="keyword">from</span> <span class="string">'uppy/lib/plugins/Tus'</span></div><div class="line"> </div><div class="line">Uppy({ autoProceed: <span class="literal">false</span> })</div><div class="line">  .use(Dashboard, { trigger: <span class="string">'#select-files'</span> })</div><div class="line">  .use(Tus, { endpoint: <span class="string">'https://master.tus.io/files/'</span> })</div><div class="line">  .run()</div><div class="line">  .on(<span class="string">'complete'</span>, (result) =&gt; {</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Upload result:'</span>, result)</div><div class="line">  })</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Uppy</span></span> <span class="token keyword module">from</span> <span class="token string">'@uppy/core'</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Dashboard</span></span> <span class="token keyword module">from</span> <span class="token string">'@uppy/dashboard'</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Instagram</span></span> <span class="token keyword module">from</span> <span class="token string">'@uppy/instagram'</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Tus</span></span> <span class="token keyword module">from</span> <span class="token string">'@uppy/tus'</span>
+
+<span class="token function"><span class="token maybe-class-name">Uppy</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token maybe-class-name">Dashboard</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    trigger<span class="token operator">:</span> <span class="token string">'#select-files'</span><span class="token punctuation">,</span>
+    showProgressDetails<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token maybe-class-name">Instagram</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    target<span class="token operator">:</span> <span class="token maybe-class-name">Dashboard</span><span class="token punctuation">,</span>
+    companionUrl<span class="token operator">:</span> <span class="token string">'https://companion.uppy.io'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token maybe-class-name">Tus</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> endpoint<span class="token operator">:</span> <span class="token string">'https://tusd.tusdemo.net/files/'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token method function property-access">on</span><span class="token punctuation">(</span><span class="token string">'complete'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">'Upload result:'</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span></pre></td></tr></tbody></table></figure>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script></body></html>
